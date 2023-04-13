@@ -1,3 +1,4 @@
+import datetime
 from abc import ABC, abstractmethod
 
 BOARD = [[letter+number for letter in 'ABCDEFGH'] for number in '12345678']
@@ -16,15 +17,18 @@ class Figure(ABC):
         return dest_field in self.list_available_moves()
 
     def get_index_from_the_board(self):
-        row_index = [BOARD.index(row) for row in BOARD if self.position in row][0]
-        col_index = [row.index(self.position) for row in BOARD if self.position in row][0]
-        return row_index, col_index
+        for index, row in enumerate(BOARD):
+            if self.position in row:
+                row_index, col_index = index, row.index(self.position)
+                return row_index, col_index
 
-    def get_vertical_and_horizontal_moves(self):
+    def get_horizontal_and_vertical_moves(self):
         moves = []
         for x in range(len(BOARD)):
             if BOARD[self.row_index][x] != self.position:
                 moves.append(BOARD[self.row_index][x])
+
+        for x in range(len(BOARD)):
             if BOARD[x][self.col_index] != self.position:
                 moves.append(BOARD[x][self.col_index])
         return moves
@@ -50,13 +54,13 @@ class King(Figure):
 
 class Queen(Figure):
     def list_available_moves(self) -> list[str]:
-        available_moves = self.get_vertical_and_horizontal_moves() + self.get_diagonal_moves()
+        available_moves = self.get_horizontal_and_vertical_moves() + self.get_diagonal_moves()
         return available_moves
 
 
 class Rook(Figure):
     def list_available_moves(self) -> list[str]:
-        return self.get_vertical_and_horizontal_moves()
+        return self.get_horizontal_and_vertical_moves()
 
 
 class Bishop(Figure):
@@ -67,7 +71,7 @@ class Bishop(Figure):
 class Knight(Figure):
     def list_available_moves(self) -> list[str]:
         available_moves = []
-        unavailable_moves = self.get_diagonal_moves() + self.get_vertical_and_horizontal_moves()
+        unavailable_moves = self.get_diagonal_moves() + self.get_horizontal_and_vertical_moves()
         for x in range(self.row_index-2, self.row_index+3):
             for y in range(self.col_index-2, self.col_index+3):
                 if 0 <= x <= 7 and 0 <= y <= 7 and BOARD[x][y] != self.position and BOARD[x][y] not in unavailable_moves:
@@ -84,22 +88,3 @@ class Pawn(Figure):
         elif self.row_index < 7:
             available_moves.append(BOARD[self.row_index + 1][self.col_index])
         return available_moves
-
-
-k = King("E1")
-print(f'King:{k.list_available_moves()}')
-
-q = Queen("G3")
-print(f'Queen: {q.list_available_moves()}')
-
-r = Rook("H2")
-print(f'Rook: {r.list_available_moves()}')
-
-b = Bishop("E3")
-print(f'Bishop: {b.list_available_moves()}')
-
-kn = Knight("H1")
-print(f'Knight: {kn.list_available_moves()}')
-
-p = Pawn("B4")
-print(f'Pawn: {p.list_available_moves()}')
