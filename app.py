@@ -77,22 +77,21 @@ def validate_move(chess_figure: str, current_field: str, dest_field: str):
 
 
 def verify_figure(chess_figure: str):
-    match chess_figure.capitalize():
-        case "King":
-            figure = King
-        case "Queen":
-            figure = Queen
-        case "Rook":
-            figure = Rook
-        case "Bishop":
-            figure = Bishop
-        case "Knight":
-            figure = Knight
-        case "Pawn":
-            figure = Pawn
-        case _:
-            figure = None
-    return figure
+    chess_figure = chess_figure.capitalize()
+    if chess_figure == "King":
+        return King
+    elif chess_figure == "Queen":
+        return Queen
+    elif chess_figure == "Rook":
+        return Rook
+    elif chess_figure == "Bishop":
+        return Bishop
+    elif chess_figure == "Knight":
+        return Knight
+    elif chess_figure == "Pawn":
+        return Pawn
+    else:
+        return None
 
 
 def verify_field(field: str) -> bool:
