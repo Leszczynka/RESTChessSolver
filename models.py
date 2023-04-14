@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from typing import List
 
 BOARD = [[letter + number for letter in "ABCDEFGH"] for number in "12345678"]
 
@@ -9,7 +10,7 @@ class Figure(ABC):
         self.row_index, self.col_index = self.get_index_from_the_board()
 
     @abstractmethod
-    def list_available_moves(self) -> list[str]:
+    def list_available_moves(self) -> List[str]:
         pass
 
     def validate_move(self, dest_field: str) -> bool:
@@ -45,7 +46,7 @@ class Figure(ABC):
 
 
 class King(Figure):
-    def list_available_moves(self) -> list[str]:
+    def list_available_moves(self) -> List[str]:
         available_moves = []
         for x in range(self.row_index - 1, self.row_index + 2):
             for y in range(self.col_index - 1, self.col_index + 2):
@@ -55,7 +56,7 @@ class King(Figure):
 
 
 class Queen(Figure):
-    def list_available_moves(self) -> list[str]:
+    def list_available_moves(self) -> List[str]:
         available_moves = (
             self.get_horizontal_and_vertical_moves() + self.get_diagonal_moves()
         )
@@ -63,17 +64,17 @@ class Queen(Figure):
 
 
 class Rook(Figure):
-    def list_available_moves(self) -> list[str]:
+    def list_available_moves(self) -> List[str]:
         return self.get_horizontal_and_vertical_moves()
 
 
 class Bishop(Figure):
-    def list_available_moves(self) -> list[str]:
+    def list_available_moves(self) -> List[str]:
         return self.get_diagonal_moves()
 
 
 class Knight(Figure):
-    def list_available_moves(self) -> list[str]:
+    def list_available_moves(self) -> List[str]:
         available_moves = []
         unavailable_moves = (
             self.get_diagonal_moves() + self.get_horizontal_and_vertical_moves()
@@ -91,7 +92,7 @@ class Knight(Figure):
 
 
 class Pawn(Figure):
-    def list_available_moves(self) -> list[str]:
+    def list_available_moves(self) -> List[str]:
         available_moves = []
         if self.row_index == 1:
             available_moves.append(BOARD[self.row_index + 1][self.col_index])

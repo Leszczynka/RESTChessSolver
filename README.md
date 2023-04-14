@@ -9,7 +9,7 @@ The application has tests developed using pytest. The code was formatted using B
 
 
 ### Technology
-* Python 3.10
+* Python 3.8
 * Flask 2.2
 * Pytest
 * Black
