@@ -14,6 +14,7 @@ The application has tests developed using pytest. The code was formatted using B
 * Pytest
 * Black
 * Flake8
+* Docker*
 
 ### Setup and run
 Make sure you have a required Python version installed.
@@ -33,6 +34,19 @@ pip install -r requirements.txt
 
 # Run server:
 flask run -p 8000 # or 'flask run' to run server on default port 5000
+```
+*Using Docker:
+
+1. Clone the repo.
+
+2. From your command line pointing to the project root directory:
+
+```bash
+# Build an image:
+docker build -t chess_flask .
+
+# Run container:
+docker run -itd -p 8000:8000 chess_flask
 ```
 
 ### Endpoints
