@@ -20,7 +20,7 @@ def get_available_moves(chess_figure: str, current_field: str):
         response_code = 404
     else:
         moves = figure(current_field).list_available_moves()
-        error = "null"
+        error = None
         response_code = 200
 
     return (
@@ -56,7 +56,7 @@ def validate_move(chess_figure: str, current_field: str, dest_field: str):
         move = figure(current_field).validate_move(dest_field)
         response_code = 200
         if move:
-            error = "null"
+            error = None
             move = "valid"
         else:
             error = "Current move is not permitted."
