@@ -1,7 +1,6 @@
-import datetime
 from abc import ABC, abstractmethod
 
-BOARD = [[letter+number for letter in 'ABCDEFGH'] for number in '12345678']
+BOARD = [[letter + number for letter in "ABCDEFGH"] for number in "12345678"]
 
 
 class Figure(ABC):
@@ -37,7 +36,10 @@ class Figure(ABC):
         moves = []
         for x in range(len(BOARD)):
             for y in range(len(BOARD)):
-                if abs(self.row_index-x) == abs(self.col_index-y) and BOARD[x][y] != self.position:
+                if (
+                    abs(self.row_index - x) == abs(self.col_index - y)
+                    and BOARD[x][y] != self.position
+                ):
                     moves.append(BOARD[x][y])
         return moves
 
@@ -45,8 +47,8 @@ class Figure(ABC):
 class King(Figure):
     def list_available_moves(self) -> list[str]:
         available_moves = []
-        for x in range(self.row_index-1, self.row_index+2):
-            for y in range(self.col_index-1, self.col_index+2):
+        for x in range(self.row_index - 1, self.row_index + 2):
+            for y in range(self.col_index - 1, self.col_index + 2):
                 if 0 <= x <= 7 and 0 <= y <= 7 and BOARD[x][y] != self.position:
                     available_moves.append(BOARD[x][y])
         return available_moves
@@ -54,7 +56,9 @@ class King(Figure):
 
 class Queen(Figure):
     def list_available_moves(self) -> list[str]:
-        available_moves = self.get_horizontal_and_vertical_moves() + self.get_diagonal_moves()
+        available_moves = (
+            self.get_horizontal_and_vertical_moves() + self.get_diagonal_moves()
+        )
         return available_moves
 
 
@@ -71,10 +75,17 @@ class Bishop(Figure):
 class Knight(Figure):
     def list_available_moves(self) -> list[str]:
         available_moves = []
-        unavailable_moves = self.get_diagonal_moves() + self.get_horizontal_and_vertical_moves()
-        for x in range(self.row_index-2, self.row_index+3):
-            for y in range(self.col_index-2, self.col_index+3):
-                if 0 <= x <= 7 and 0 <= y <= 7 and BOARD[x][y] != self.position and BOARD[x][y] not in unavailable_moves:
+        unavailable_moves = (
+            self.get_diagonal_moves() + self.get_horizontal_and_vertical_moves()
+        )
+        for x in range(self.row_index - 2, self.row_index + 3):
+            for y in range(self.col_index - 2, self.col_index + 3):
+                if (
+                    0 <= x <= 7
+                    and 0 <= y <= 7
+                    and BOARD[x][y] != self.position
+                    and BOARD[x][y] not in unavailable_moves
+                ):
                     available_moves.append(BOARD[x][y])
         return available_moves
 
